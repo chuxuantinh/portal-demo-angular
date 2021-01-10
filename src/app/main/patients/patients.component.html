@@ -1,0 +1,61 @@
+<a routerLink="/patients/new" class="button primary add"><i class="fa fa-plus"></i> Add new patient</a>
+
+<kendo-grid #grid class="patients-grid" [data]="patients | async" [sortable]="{mode: 'single'}" [pageSize]="pageSize" [skip]="skip"
+  [pageable]="true" [selectable]="true" (selectionChange)="patientSelectionChanged($event)" [height]="800" class="patients-grid">
+  <kendo-grid-column field="lastName">
+    <ng-template kendoGridHeaderTemplate>
+      Name
+    </ng-template>
+    <ng-template kendoGridCellTemplate let-dataItem>
+      <span class="name">
+        {{dataItem.lastName}}, {{dataItem.firstName}}
+      </span>
+    </ng-template>
+  </kendo-grid-column>
+  <ng-template [ngIf]="!narrow">
+    <kendo-grid-column field="id">
+      <ng-template kendoGridHeaderTemplate>
+        Id
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="doctor.lastName">
+      <ng-template kendoGridHeaderTemplate>
+        Doctor
+      </ng-template>
+      <ng-template kendoGridCellTemplate let-dataItem>
+        {{dataItem.doctor.lastName}}, {{dataItem.doctor.firstName}}
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="lastEntry">
+      <ng-template kendoGridHeaderTemplate>
+        Last Entry
+      </ng-template>
+      <ng-template kendoGridCellTemplate let-dataItem>
+        {{dataItem.lastEntry | date}}
+      </ng-template>
+    </kendo-grid-column>
+  </ng-template>
+  <ng-template kendoGridDetailTemplate let-dataItem *ngIf="narrow">
+    <div class="details-row">
+      <div class="field">
+        <label>Id</label>
+        <span>{{dataItem.id}}</span>
+      </div>
+      <div class="field">
+        <label>Medical record</label>
+        <span>{{dataItem.medicalRecord}}</span>
+      </div>
+      <div class="field">
+        <label>Doctor</label>
+        <span>{{dataItem.doctor.lastName}}, {{dataItem.doctor.firstName}}</span>
+      </div>
+      <div class="field">
+        <label>Last entry</label>
+        <span>{{dataItem.lastEntry | date}}</span>
+      </div>
+    </div>
+  </ng-template>
+</kendo-grid>
+<div class="details" [class.open]="detailsOpen()">
+  <router-outlet></router-outlet>
+</div>

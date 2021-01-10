@@ -1,0 +1,21 @@
+<div class="login-view">
+  <div class="login-box">
+    <div class="form">
+      <h1>Patient portal</h1>
+      <form [formGroup]="loginForm" (ngSubmit)="login($event)">
+        <div class="field stacked">
+          <label for="username">Username</label>
+          <input autofocus id="username" type="text" formControlName="username" autocomplete="username">
+        </div>
+        <div class="field stacked">
+          <label for="password">Password</label>
+          <input id="password" type="password" formControlName="password" autocomplete="password">
+        </div>
+        <button type="submit" class="primary">Login</button>
+      </form>
+    </div>
+    <div *ngIf="errorMsg" role="alert" class="alert error">
+      <i class="fa fa-lock"></i> {{errorMsg}}
+    </div>
+  </div>
+</div>
